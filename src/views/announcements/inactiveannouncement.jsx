@@ -5,6 +5,7 @@ import axios from 'axios';
 import config from 'config';
 import { useNavigate } from 'react-router';
 import Spinner from 'react-bootstrap/Spinner';
+import avatar2 from 'assets/images/user/avatar-2.jpg';
 
 export default function InActiveAnnouncement() {
   const [announcementsList, setAnnouncementsList] = useState([]);
@@ -161,7 +162,7 @@ export default function InActiveAnnouncement() {
                 <div className="d-flex align-items-start justify-content-between mb-2 gap-2">
                   <div className="d-flex align-items-center" style={{ minWidth: 0 }}>
                     <img
-                      src="src/assets/images/user/avatar-2.jpg"
+                      src={avatar2}
                       alt="Profile"
                       style={{
                         width: '40px',
