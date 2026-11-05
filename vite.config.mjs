@@ -60,7 +60,7 @@ export default defineConfig(({ mode }) => {
     build: {
       chunkSizeWarningLimit: 1600
     },
-    base: env.VITE_BASE_PATH || '/',
+    base: '/',
     plugins: [react(), tsconfigPaths()]
   };
 });
