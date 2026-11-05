@@ -3,18 +3,12 @@ import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import path from 'path';
 
-const resolvePath = (str) => path.resolve(__dirname, str);
-
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const API_URL = `${env.VITE_APP_BASE_NAME}`;
-  const PORT = 3000;
 
   return {
     server: {
-      // this ensures that the browser opens upon server start
       open: true,
-      // this sets a default port to 3000
       port: 3007,
       host: true
     },
@@ -36,7 +30,6 @@ export default defineConfig(({ mode }) => {
           find: /^src(.+)/,
           replacement: path.join(process.cwd(), 'src/$1')
         }
-
       ]
     },
     css: {
