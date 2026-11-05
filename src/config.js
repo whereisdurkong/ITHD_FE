@@ -10,8 +10,8 @@ const config = {
   container: true,
   mode: 'light',
   presetColor: 'default',
-  baseApi: import.meta.env.VITE_API_URL || 'https://ithd-mw.onrender.com/api',
-  baseUrl: import.meta.env.VITE_APP_URL || 'https://ithd-mw.onrender.com/'
+  baseApi: 'https://ithd-mw.onrender.com/api',
+  baseUrl: 'https://ithd-mw.onrender.com/'
 };
 export const drawerWidth = 280;
 export default config;
