@@ -10,8 +10,8 @@ const config = {
   container: true,
   mode: 'light',
   presetColor: 'default',
-  baseApi: 'http://localhost:5007/api',
-  baseUrl: 'http://localhost:3007'
+  baseApi: import.meta.env.VITE_API_URL || 'http://localhost:5007/api',
+  baseUrl: import.meta.env.VITE_APP_URL || 'http://localhost:3007'
 };
 export const drawerWidth = 280;
 export default config;

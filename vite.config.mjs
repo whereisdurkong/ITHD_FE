@@ -65,15 +65,9 @@ export default defineConfig(({ mode }) => {
       }
     },
     build: {
-      chunkSizeWarningLimit: 1600,
-      rollupOptions: {
-        input: {
-          main: resolvePath('index.html'),
-          legacy: resolvePath('index.html')
-        }
-      }
+      chunkSizeWarningLimit: 1600
     },
-    base: '/ticketsystem',
+    base: env.VITE_BASE_PATH || '/',
     plugins: [react(), tsconfigPaths()]
   };
 });
