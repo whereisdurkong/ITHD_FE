@@ -6,6 +6,11 @@ import axios from 'axios';
 import config from 'config';
 import AnimatedContent from 'layouts/ReactBits/AnimatedContent';
 
+import hardwareImg from 'assets/images/hardware.png';
+import networkImg from 'assets/images/network.png';
+import softwareImg from 'assets/images/software.png';
+import systemImg from 'assets/images/system.png';
+
 export default function Knowledgebase() {
   const [allData, setAllData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -32,25 +37,25 @@ export default function Knowledgebase() {
     {
       title: 'Hardware',
       desc: 'Learn how to troubleshoot and maintain your computer’s physical components and devices.',
-      src: 'src/assets/images/hardware.png',
+      src: hardwareImg,            // was 'src/assets/images/hardware.png'
       link: '/hardware'
     },
     {
       title: 'Network',
       desc: 'Find guides to fix connectivity issues and understand how your network keeps you online.',
-      src: 'src/assets/images/network.png',
+      src: networkImg,             // was 'src/assets/images/network.png'
       link: '/network'
     },
     {
       title: 'Application',
       desc: 'Explore tips and solutions for common application errors and application usage.',
-      src: 'src/assets/images/software.png',
+      src: softwareImg,            // was 'src/assets/images/software.png'
       link: '/application'
     },
     {
       title: 'System',
       desc: 'Access guides and troubleshooting tips for our in-house applications and tools.',
-      src: 'src/assets/images/system.png',
+      src: systemImg,              // was 'src/assets/images/system.png'
       link: '/system'
     }
   ];
@@ -212,13 +217,13 @@ export default function Knowledgebase() {
               <span style={{ flexBasis: '100%' }} className="d-sm-inline">
                 Common troubleshooting topics:
               </span>
-              <a href="/ticketsystem/network" style={{ color: '#fff', textDecoration: 'underline' }}>
+              <a href="/network" style={{ color: '#fff', textDecoration: 'underline' }}>
                 Slow internet
               </a>
-              <a href="/ticketsystem/hardware" style={{ color: '#fff', textDecoration: 'underline' }}>
+              <a href="/hardware" style={{ color: '#fff', textDecoration: 'underline' }}>
                 Keyboard not working
               </a>
-              <a href="/ticketsystem/application" style={{ color: '#fff', textDecoration: 'underline' }}>
+              <a href="/application" style={{ color: '#fff', textDecoration: 'underline' }}>
                 Outlook Unable to log in
               </a>
             </div>
