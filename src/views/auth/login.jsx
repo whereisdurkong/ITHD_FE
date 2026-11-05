@@ -397,7 +397,7 @@ export default function SignIn1() {
       if (!response.data.error) {
         localStorage.setItem('user', JSON.stringify(response.data));
         localStorage.setItem('status', JSON.stringify([{ id: 0, value: 'Login' }]));
-        window.location.replace(`ticketsystem/dashboard`);
+        window.location.replace(`dashboard`);
       }
     } catch (err) {
       if (err.response) {
