@@ -5,6 +5,7 @@ import axios from 'axios';
 import config from 'config';
 import Spinner from 'react-bootstrap/Spinner';
 import AnimatedContent from 'layouts/ReactBits/AnimatedContent';
+import avatar2 from 'assets/images/user/avatar-2.jpg';
 import { useNavigate } from 'react-router';
 
 export default function Announcements() {
@@ -247,7 +248,7 @@ export default function Announcements() {
                   <div className="d-flex align-items-start justify-content-between mb-3 mb-md-4 gap-2">
                     <div className="d-flex align-items-center" style={{ minWidth: 0 }}>
                       <img
-                        src="src/assets/images/user/avatar-2.jpg"
+                        src={avatar2}
                         alt="Profile"
                         style={{
                           width: '40px',
