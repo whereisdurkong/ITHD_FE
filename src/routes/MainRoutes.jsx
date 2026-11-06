@@ -30,9 +30,6 @@ import PMSbyHD from 'views/pmsreports/pmsbyhd';
 import Maintenance from 'views/pages/maintenance';
 import PMSList from 'views/pmsreports/pmslist';
 
-
-
-
 // Lazy imports
 const Typography = lazy(() => import('../views/ui-elements/basic/BasicTypography'));
 const Color = lazy(() => import('../views/ui-elements/basic/BasicColor'));
@@ -40,9 +37,9 @@ const FeatherIcon = lazy(() => import('../views/ui-elements/icons/Feather'));
 const FontAwesome = lazy(() => import('../views/ui-elements/icons/FontAwesome'));
 const MaterialIcon = lazy(() => import('../views/ui-elements/icons/Material'));
 
-const Register = lazy(() => import('views/auth/register'))
+const Register = lazy(() => import('views/auth/register'));
 const Dashboard = lazy(() => import('views/dashboard'));
-const Assets = lazy(() => import('views/assets'))
+const Assets = lazy(() => import('views/assets'));
 
 const Announcements = lazy(() => import('views/announcements'));
 const InActiveAnnouncement = lazy(() => import('views/announcements/inactiveannouncement'));
@@ -58,14 +55,14 @@ const ANetwork = lazy(() => import('views/knowledgebase/networkarchive'));
 const Reports = lazy(() => import('views/report/reports'));
 const Test = lazy(() => import('views/pmsreports/pmstatpercategory'));
 
-const Tickets = lazy(() => import('views/tickets'))
+const Tickets = lazy(() => import('views/tickets'));
 
-const CreateTicket = lazy(() => import('views/tickets/createticket'))
-const CreateTicketUser = lazy(() => import('views/tickets/createticket-user'))
+const CreateTicket = lazy(() => import('views/tickets/createticket'));
+const CreateTicketUser = lazy(() => import('views/tickets/createticket-user'));
 
-const CreateTicketHD = lazy(() => import('views/tickets/createticket-hd'))
+const CreateTicketHD = lazy(() => import('views/tickets/createticket-hd'));
 
-const OpenTicket = lazy(() => import('views/tickets/openticket'))
+const OpenTicket = lazy(() => import('views/tickets/openticket'));
 const Alltickets = lazy(() => import('views/tickets/alltickets'));
 const ViewTicket = lazy(() => import('views/tickets/viewticket'));
 const ViewHDTicket = lazy(() => import('views/tickets/viewhdticket'));
@@ -81,19 +78,17 @@ const AllTicketbyType = lazy(() => import('views/report/allticketbytype'));
 const AllTicketByTAT = lazy(() => import('views/report/allticketbytat'));
 const AllData = lazy(() => import('views/report/alldata'));
 
-
 const SubCatDepartment = lazy(() => import('views/report/subcat_department'));
 const SubCatDepartmentTable = lazy(() => import('views/report/subcat_departmentTable'));
-
 
 const UserDashboard = lazy(() => import('views/dashboard/userdashboard'));
 const HDDashboard = lazy(() => import('views/dashboard/hddashboard'));
 
 const Profile = lazy(() => import('views/pages/profile'));
-const Users = lazy(() => import('views/users'))
+const Users = lazy(() => import('views/users'));
 
 const TATCategory = lazy(() => import('views/report/tatpercategory'));
-const UsersView = lazy(() => import('views/users/users-view'))
+const UsersView = lazy(() => import('views/users/users-view'));
 
 // Spinner fallback
 const LoadingSpinner = (
@@ -107,14 +102,24 @@ const LoadingSpinner = (
 // Suspense wrapper
 const withSpinner = (Component) => <Suspense fallback={LoadingSpinner}>{Component}</Suspense>;
 
+// const RoleAccess = () => {
+
+//   if (localStorage.getItem("user") === null) {
+//     return <Navigate to="/" replace />
+//   } else {
+//     return <MainLayout />
+//   }
+// }
+
 const RoleAccess = () => {
-  console.log
-  if (localStorage.getItem("user") === null) {
-    return <Navigate to="/" replace />
-  } else {
-    return <MainLayout />
+  const user = localStorage.getItem('user');
+
+  if (user === null || user === '') {
+    return <Navigate to="/" replace />;
   }
-}
+
+  return <MainLayout />;
+};
 
 const MainRoutes = {
   path: '/',
@@ -385,11 +390,6 @@ const MainRoutes = {
       path: '/tatpercategory',
       element: <TATCategory />
     }
-
-
-
-
-
   ]
 };
 
