@@ -13,6 +13,49 @@ import ViewTicketTAT from './viewtickettat';
 import CreatableSelect from 'react-select/creatable';
 import AnimatedContent from 'layouts/ReactBits/AnimatedContent';
 
+function NoteAttachmentLinks({ filePaths, getFileIcon, buildFileUrl }) {
+  const [urls, setUrls] = useState({});
+
+  useEffect(() => {
+    const resolve = async () => {
+      const map = {};
+      for (const fp of filePaths) {
+        const clean = fp.trim();
+        const url = await buildFileUrl(clean, 'noteuploads');
+        if (url) map[clean] = url;
+      }
+      setUrls(map);
+    };
+    resolve();
+  }, [filePaths]);
+
+  return (
+    <div className="mt-2">
+      <small className="text-muted">Attachments:</small>
+      {filePaths.map((filePath, idx) => {
+        const clean = filePath.trim();
+        const fileName = clean.split('/').pop();
+        const fileUrl = urls[clean];
+
+        return (
+          <div key={idx} className="mt-1">
+            {fileUrl ? (
+              <a href={fileUrl} target="_blank" rel="noopener noreferrer" className="text-decoration-none">
+                <div className="d-flex align-items-center">
+                  <div className="me-2">{getFileIcon(fileName)}</div>
+                  <small>{fileName.length > 30 ? fileName.slice(0, 30) + '...' : fileName}</small>
+                </div>
+              </a>
+            ) : (
+              <small className="text-muted">Loading...</small>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function ViewHDTicket() {
   const [formData, setFormData] = useState({});
   const [originalData, setOriginalData] = useState({});
@@ -74,6 +117,7 @@ export default function ViewHDTicket() {
   const [archBTN2, setArchBTN2] = useState(false);
 
   const empInfo = JSON.parse(localStorage.getItem('user'));
+  const [resolvedUrls, setResolvedUrls] = useState({});
   // const [lockModal, setLockModal] = useState(false)
   // const [lockError, setLockError] = useState('')
 
@@ -511,6 +555,25 @@ export default function ViewHDTicket() {
 
     fetchData();
   }, [ticket_id]);
+
+  useEffect(() => {
+    const resolveUrls = async () => {
+      if (!formData.Attachments) return;
+
+      const filePaths = formData.Attachments.split(/[;,]/).filter(Boolean);
+      const urlMap = {};
+
+      for (const filePath of filePaths) {
+        const clean = filePath.trim();
+        const url = await buildFileUrl(clean, 'uploads');
+        if (url) urlMap[clean] = url;
+      }
+
+      setResolvedUrls(urlMap);
+    };
+
+    resolveUrls();
+  }, [formData.Attachments]);
 
   //Archive Checker
   useEffect(() => {
@@ -1013,21 +1076,26 @@ export default function ViewHDTicket() {
       .map((p) => p.trim())
       .filter(Boolean);
 
-  const buildFileUrl = (filePath) => {
-    const clean = filePath
-      .trim()
-      .replace(/^[\\/]+/, '')
-      .replace(/\\/g, '/');
-    return `${config.baseApi}/${clean.split('/').map(encodeURIComponent).join('/')}`;
+  const buildFileUrl = async (filePath, bucket = 'uploads') => {
+    try {
+      const res = await axios.get(`${config.baseApi}/ticket/attachment-url`, {
+        params: { path: filePath, bucket }
+      });
+      return res.data.url;
+    } catch (err) {
+      console.error('Failed to get signed URL:', err);
+      return null;
+    }
   };
 
   const renderAttachment = () => {
     if (!formData.Attachments) return <div className="text-muted fst-italic">No attachments</div>;
 
-    const filePaths = splitAttachmentPaths(formData.Attachments);
+    const filePaths = formData.Attachments.split(/[;,]/).filter(Boolean);
+
     const getFileIcon = (filename) => {
       const ext = filename.split('.').pop().toLowerCase();
-      if (['jpg', 'jpeg', 'png', 'gif'].includes(ext)) return <FaFileImage size={28} className="text-primary" />;
+      if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) return <FaFileImage size={28} className="text-primary" />;
       if (['pdf'].includes(ext)) return <FaFilePdf size={28} className="text-danger" />;
       if (['doc', 'docx'].includes(ext)) return <FaFileWord size={28} className="text-info" />;
       return <FaFileAlt size={28} className="text-secondary" />;
@@ -1036,14 +1104,10 @@ export default function ViewHDTicket() {
     return (
       <div className="d-flex flex-column">
         {filePaths.map((filePath, idx) => {
-          // Clean up the file path
-          let cleanPath = filePath.trim();
-          // Ensure consistent path separators and remove leading slashes
-          cleanPath = cleanPath.replace(/^[\\/]+/, '').replace(/\\/g, '/');
-
-          const fileName = cleanPath.split('/').pop();
+          const clean = filePath.trim();
+          const fileName = clean.split('/').pop();
           const shortName = fileName.length > 25 ? fileName.slice(0, 25) + '...' : fileName;
-          const fileUrl = buildFileUrl(cleanPath);
+          const fileUrl = resolvedUrls[clean];
 
           return (
             <Card key={idx} className="shadow-sm border-0 mb-1" style={{ backgroundColor: '#fdedd3ff' }}>
@@ -1054,11 +1118,17 @@ export default function ViewHDTicket() {
                     {shortName}
                   </div>
                 </div>
-                <a href={fileUrl} target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline-primary" size="sm">
-                    View
+                {fileUrl ? (
+                  <a href={fileUrl} target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline-primary" size="sm">
+                      View
+                    </Button>
+                  </a>
+                ) : (
+                  <Button variant="outline-secondary" size="sm" disabled>
+                    Loading...
                   </Button>
-                </a>
+                )}
               </Card.Body>
             </Card>
           );
@@ -1066,7 +1136,6 @@ export default function ViewHDTicket() {
       </div>
     );
   };
-
   //Add collaboration function
   const AddCollab = () => {
     const empInfo = JSON.parse(localStorage.getItem('user'));
@@ -1128,8 +1197,7 @@ export default function ViewHDTicket() {
   const renderNoteAttachments = (attachmentPath) => {
     if (!attachmentPath) return null;
 
-    const filePaths = splitAttachmentPaths(attachmentPath);
-
+    const filePaths = attachmentPath.split(/[;,]/).filter(Boolean);
     if (filePaths.length === 0) return null;
 
     const getFileIcon = (filename) => {
@@ -1140,30 +1208,7 @@ export default function ViewHDTicket() {
       return <FaFileAlt size={20} className="text-secondary" />;
     };
 
-    return (
-      <div className="mt-2">
-        <small className="text-muted">Attachments:</small>
-        {filePaths.map((filePath, idx) => {
-          let cleanPath = filePath
-            .trim()
-            .replace(/^[\\/]+/, '')
-            .replace(/\\/g, '/');
-          const fileName = cleanPath.split('/').pop();
-          const fileUrl = buildFileUrl(cleanPath);
-
-          return (
-            <div key={idx} className="mt-1">
-              <a href={fileUrl} target="_blank" rel="noopener noreferrer" className="text-decoration-none">
-                <div className="d-flex align-items-center">
-                  <div className="me-2">{getFileIcon(fileName)}</div>
-                  <small>{fileName.length > 30 ? fileName.slice(0, 30) + '...' : fileName}</small>
-                </div>
-              </a>
-            </div>
-          );
-        })}
-      </div>
-    );
+    return <NoteAttachmentLinks filePaths={filePaths} getFileIcon={getFileIcon} buildFileUrl={buildFileUrl} />;
   };
 
   return (
