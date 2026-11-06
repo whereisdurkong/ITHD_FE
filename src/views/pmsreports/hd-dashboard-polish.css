@@ -1,0 +1,189 @@
+/* HD Dashboard polish - import AFTER bento-layout-new.css
+   Does not touch the page background gradient. */
+
+/* ---------- Cards ---------- */
+.bento-item-top,
+.bento-item-header,
+.bento-item {
+  background: #fffdf6 !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 16px !important;
+  box-shadow:
+    0 8px 24px rgba(5, 59, 0, 0.12),
+    0 2px 6px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.bento-item-top:hover,
+.bento-item-header:hover {
+  transform: translateY(-4px);
+}
+
+.bento-item {
+  padding: 16px;
+}
+
+/* ---------- Card headers (override inline styles) ---------- */
+.bento-item-top > div:first-child,
+.bento-item-header > div:first-child {
+  background: linear-gradient(135deg, #004e0d 0%, #0a7a1f 100%) !important;
+  border-radius: 0 !important;
+  padding: 12px 16px !important;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.bento-item-header > div:first-child h5 {
+  font-size: 1rem;
+}
+.bento-item-header > div:first-child h6 {
+  opacity: 0.8;
+  font-size: 0.75rem;
+}
+
+/* ---------- Big stat numbers ---------- */
+.bento-item-top h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 0;
+  padding: 12px 0 16px;
+  background: linear-gradient(135deg, #004e0d, #2e9e3f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---------- Tables ---------- */
+.bento-item table,
+.modal-body table {
+  border: none !important;
+  border-collapse: separate !important;
+  border-spacing: 0;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.bento-item table thead,
+.modal-body table thead {
+  background: transparent !important;
+}
+
+.bento-item table th,
+.modal-body table th {
+  background: linear-gradient(135deg, #053b00, #0a6b1a) !important;
+  color: #fff !important;
+  padding: 10px 12px !important;
+  font-weight: 600;
+  border: none !important;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+.bento-item table th:first-child,
+.modal-body table th:first-child {
+  border-top-left-radius: 10px;
+}
+.bento-item table th:last-child,
+.modal-body table th:last-child {
+  border-top-right-radius: 10px;
+}
+
+.bento-item table td,
+.modal-body table td {
+  padding: 10px 12px !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(5, 59, 0, 0.08) !important;
+  vertical-align: middle;
+}
+
+.bento-item table tbody tr:nth-child(even),
+.modal-body table tbody tr:nth-child(even) {
+  background: rgba(5, 59, 0, 0.03);
+}
+
+.bento-item table tbody tr,
+.modal-body table tbody tr {
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.bento-item table tbody tr:hover,
+.modal-body table tbody tr:hover {
+  background: rgba(255, 215, 0, 0.28) !important;
+}
+
+/* ---------- Pagination ---------- */
+.tickets-pagination .page-link,
+.pagination .page-link {
+  border: none;
+  margin: 0 3px;
+  border-radius: 8px !important;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.pagination .page-item.active .page-link {
+  box-shadow: 0 4px 10px rgba(5, 59, 0, 0.35);
+  color: #fff;
+}
+
+.pagination .page-link:hover {
+  background: rgba(5, 59, 0, 0.1);
+}
+
+/* ---------- Filters ---------- */
+.form-select {
+  border-radius: 10px !important;
+  border: 1px solid rgba(5, 59, 0, 0.25) !important;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  font-weight: 500;
+}
+
+.form-select:focus {
+  border-color: #0a7a1f !important;
+  box-shadow: 0 0 0 0.2rem rgba(10, 122, 31, 0.2) !important;
+}
+
+/* ---------- Modal ---------- */
+.modal-content {
+  border: none !important;
+  border-radius: 18px !important;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  background: linear-gradient(135deg, #004e0d, #0a7a1f);
+  color: #fff;
+  border-bottom: none;
+}
+
+.modal-header .modal-title {
+  font-weight: 700;
+}
+.modal-header .btn-close {
+  filter: invert(1) brightness(2);
+}
+
+.modal-footer .btn-secondary {
+  background: #004e0d;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 20px;
+}
+
+.modal-footer .btn-secondary:hover {
+  background: #0a7a1f;
+}
+
+/* ---------- Title ---------- */
+.container-fluid h2 {
+  font-weight: 800;
+  color: #053b00;
+  letter-spacing: -0.5px;
+}

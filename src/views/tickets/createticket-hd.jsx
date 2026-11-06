@@ -864,7 +864,7 @@ export default function CreateTicketHD() {
       try {
         const res = await axios.get(`${config.baseApi}/pms/get-all-pms`);
         const data = res.data || [];
-        const active = data.filter((a) => a.is_active === '1');
+        const active = data.filter((a) => a.is_active === true);
 
         const allAssets = active.map((e) => e.tag_id);
 
